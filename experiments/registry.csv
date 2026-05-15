@@ -1,0 +1,2 @@
+exp_id,name,hypothesis,variable_changed,baseline_exp_id,status,cv_score,lb_score,date,notes
+0000,init_baseline,"環境構築・初期ベースライン確立","none","none","template","","","2026-05-15","レジストリ初期化。実験はこの行の下に追記すること"
