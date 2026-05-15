@@ -313,6 +313,31 @@ def main():
     print(f"\n=== BirdCLEF+ 2026 Submission Tool ===")
     print(f"時刻: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
 
+    # sample_submission がある場合、全入力ファイルの列順・shape を即時チェック
+    if sample is not None:
+        mismatch_errors = []
+        for label, sub in [("A", sub_a), ("B", sub_b), ("C", sub_c)]:
+            if sub is None:
+                continue
+            if sub.headers != sample.headers:
+                mismatch_errors.append(
+                    f"  submission {label} ({sub.path}): "
+                    f"列数={len(sub.headers)}, 期待={len(sample.headers)}\n"
+                    f"    先頭4列: got={sub.headers[:4]}, expected={sample.headers[:4]}"
+                )
+            if len(sub.rows) != len(sample.rows):
+                mismatch_errors.append(
+                    f"  submission {label} ({sub.path}): "
+                    f"行数={len(sub.rows)}, 期待={len(sample.rows)}"
+                )
+        if mismatch_errors:
+            print("\nERROR: 入力ファイルが sample_submission.csv と一致しません。ブレンドを中止します。", file=sys.stderr)
+            for err in mismatch_errors:
+                print(err, file=sys.stderr)
+            print("\n  実際の sample_submission.csv を使用しているか確認してください。", file=sys.stderr)
+            print("  合成データ（列数207等）は BirdCLEF 2026 本番形式（235列）ではありません。", file=sys.stderr)
+            sys.exit(1)
+
     # 監査
     audit_a = sub_a.audit(sample)
     print_audit(audit_a, "submission A")

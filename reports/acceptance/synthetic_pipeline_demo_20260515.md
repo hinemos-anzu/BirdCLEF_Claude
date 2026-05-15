@@ -1,4 +1,9 @@
-# 受け入れテスト結果
+# 合成データ パイプライン疎通テスト結果（SYNTHETIC PIPELINE DEMO）
+
+> **[DISCLAIMER] This report is based on synthetic data only.**
+> **[DISCLAIMER] This report must not be used for Kaggle submission approval.**
+> **[DISCLAIMER] Real submission files are required for actual audit.**
+> **[DISCLAIMER] Synthetic shape (7200, 207) is not considered BirdCLEF production-compatible unless sample_submission.csv also has 207 columns.**
 
 **実施日**: 2026-05-15  
 **レビュアー**: まとめ役フィードバック対応  

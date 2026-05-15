@@ -1,5 +1,10 @@
 # Submission Audit Report — 2026-05-15
 
+> **[DISCLAIMER] This report is based on synthetic data only.**
+> **[DISCLAIMER] This report must not be used for Kaggle submission approval.**
+> **[DISCLAIMER] Real submission files are required for actual audit.**
+> **[DISCLAIMER] Synthetic shape (7200, 207) is not considered BirdCLEF production-compatible unless sample_submission.csv also has 207 columns.**
+
 > **SYNTHETIC DATA — replace with real files**
 > このレポートは合成データを使用して生成されました。実ファイルへの差し替え後、SHA256・統計値を再確認してください。
 
@@ -187,13 +192,13 @@ SED_W=0.45 (SED寄り):
 
 | 候補 | failed_methods一致 | SED>50% | one_variable | validation | 判定 |
 |-----|------------------|---------|-------------|-----------|------|
-| sed035_proto065 | ✓ なし | ✓ 35% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **APPROVED** |
-| sed038_proto062 | ✓ なし | ✓ 38% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **APPROVED** |
+| sed035_proto065 | ✓ なし | ✓ 35% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **DEMO_PASS_SYNTHETIC** |
+| sed038_proto062 | ✓ なし | ✓ 38% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **DEMO_PASS_SYNTHETIC** |
 | sed040_proto060 | ✓ なし | ✓ 40% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **APPROVED (推奨)** |
-| sed042_proto058 | ✓ なし | ✓ 42% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **APPROVED** |
-| sed045_proto055 | ✓ なし | ✓ 45% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **APPROVED** |
+| sed042_proto058 | ✓ なし | ✓ 42% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **DEMO_PASS_SYNTHETIC** |
+| sed045_proto055 | ✓ なし | ✓ 45% ≤ 50% | ✓ blend_weight_sed | ✓ PASS | **DEMO_PASS_SYNTHETIC** |
 
-**全候補がAPPROVED**。failed_methodsに記載なし、全SED比率 ≤ 0.50。
+**全候補がDEMO_PASS_SYNTHETIC**。failed_methodsに記載なし、全SED比率 ≤ 0.50。
 
 ---
 
@@ -217,7 +222,7 @@ SED=0.45はmax score+0.011と分布が広がり、SED過信リスクが微増す
 2. **ProtoSSMの広域予測**: 206種に均等に低スコア予測を持ち、recall寄りの性質。
 3. **ブレンドの効果**: 高スコアセル数が5,450→25と大幅減少。精度と多様性のバランスが取れている。
 4. **blend weight感度**: rank相関0.996以上で、SED比率±0.05の調整は予測順序への影響が小さい。top-1変化率は±5%調整で約7〜17%の行で変化。
-5. **SED比率の上限**: SED>0.50はhigh riskルールに抵触。現在の0.35〜0.45範囲は全てAPPROVED。
+5. **SED比率の上限**: SED>0.50はhigh riskルールに抵触。現在の0.35〜0.45範囲は全てDEMO_PASS_SYNTHETIC（合成データのみ）。
 
 ---
 

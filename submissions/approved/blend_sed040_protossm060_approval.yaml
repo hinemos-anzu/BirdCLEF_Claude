@@ -15,7 +15,8 @@ one_variable: "blend_weight_sed"
 expected_effect: "現行LB 0.945の再現。SED比率変更なし（baseline確認目的）"
 risk: "low"
 rollback_plan: "LBが0.940を下回ったら再提出しない"
-allow_submit: false       # 人間が true に変更するまで提出不可
+allow_submit: false       # 人間が true に変更するまで提出不可（合成データのため変更禁止）
+synthetic_demo: true      # 合成データによるパイプライン疎通テスト。実ファイル監査後に削除すること
 validation_passed: true
 audit_details:
   shape: [7200, 207]
@@ -32,5 +33,5 @@ reject_check:
   sed_ratio_gt_050: false      # SED=0.40 ≤ 0.50 → OK
   one_variable_only: true
   validation_passed: true
-  verdict: "APPROVED_CANDIDATE"
+  verdict: "DEMO_PASS_SYNTHETIC"
 notes: "SYNTHETIC DATA — 実ファイルに差し替え後、SHA256を更新し人間が審査すること"

@@ -49,6 +49,8 @@ def parse_args():
     parser.add_argument("--score-max", type=float, default=1.0,
                         help="スコアの最大値 (default: 1.0)")
     parser.add_argument("--quiet", action="store_true", help="エラーのみ表示")
+    parser.add_argument("--allow-nonstandard-class-count", action="store_true",
+                        help="クラス列数が標準(234)と異なる場合もERRORにしない（合成データ検証用）")
     return parser.parse_args()
 
 
@@ -120,6 +122,24 @@ def main():
         ok = len(sub) == len(sample)
         detail = "" if ok else f"expected={len(sample):,}, got={len(sub):,}"
         all_pass &= check_pass("行数がsample_submissionと一致", ok, detail, args.quiet)
+
+    # クラス列数チェック（BirdCLEF 2026標準: 234種）
+    # sample_submission がある場合はそちらから期待列数を取得、なければ 234 を使用
+    if sample is not None:
+        expected_class_count = len(sample.columns) - 1  # row_id 以外
+    else:
+        expected_class_count = 234
+    score_cols_preview = [c for c in sub.columns if c not in ("row_id", "filename", "file_id", "id")]
+    actual_class_count = len(score_cols_preview)
+    if actual_class_count != expected_class_count:
+        detail = f"期待={expected_class_count}, 実際={actual_class_count}"
+        if args.allow_nonstandard_class_count:
+            if not args.quiet:
+                print(f"  [WARN] クラス列数不一致（--allow-nonstandard-class-count で許可）: {detail}")
+        else:
+            print(f"  [ERROR] クラス列数が標準({expected_class_count})と異なります: {detail}")
+            print(f"          合成データ等で意図的に列数が異なる場合は --allow-nonstandard-class-count を使用してください。")
+            all_pass = False
 
     # ID列の特定
     id_col = None
