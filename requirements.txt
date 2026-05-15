@@ -1,0 +1,44 @@
+# BirdCLEF+ 2026 — ローカルPC (Windows + GPU) 用依存関係
+# Kaggle notebook環境との互換性を意識してバージョンを固定する
+# インストール: pip install -r requirements.txt
+
+# ========== 実験管理・データ処理 ==========
+pandas>=2.0.0,<3.0.0
+numpy>=1.24.0,<2.0.0
+pyyaml>=6.0
+
+# ========== 音声処理 ==========
+librosa>=0.10.0
+soundfile>=0.12.0
+audioread>=3.0.0
+
+# ========== 深層学習（CUDA対応はtorchのインストール時に指定） ==========
+# GPU版: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# ========== モデルライブラリ ==========
+timm>=0.9.0          # EfficientNet等のCNN backbone
+transformers>=4.35.0 # HuggingFace（CLAP等）
+
+# ========== 実験トラッキング（任意） ==========
+# wandb>=0.16.0      # WandBを使う場合はコメント解除
+
+# ========== Kaggle提出 ==========
+kaggle>=1.6.0        # Kaggle CLI (submit_code_competition.py で使用)
+
+# ========== 可視化 ==========
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# ========== スペクトログラム ==========
+torchaudio>=2.1.0    # メルスペクトログラム生成
+
+# ========== Kaggle互換チェック用 ==========
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# ========== 開発用 ==========
+jupyter>=1.0.0
+ipykernel>=6.0.0

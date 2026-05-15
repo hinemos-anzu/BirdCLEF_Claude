@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
 knowledge/ ディレクトリを読んで次の実験候補を提案するスクリプト。
-failed_methods.md に記載済みの手法は提案しない。
+failed_methods.md / knowledge/failed_methods/ に記載済みの手法は提案しない。
 
 使用例:
     python scripts/suggest_next_experiments.py
-    python scripts/suggest_next_experiments.py --top-k 5
-    python scripts/suggest_next_experiments.py --register  # 選択した実験をregistryに登録
+    python scripts/suggest_next_experiments.py --top-k 10 --exclude-failed
+    python scripts/suggest_next_experiments.py --category augmentation
+    python scripts/suggest_next_experiments.py --register
 """
 
 import argparse
@@ -132,22 +133,35 @@ def parse_args():
     parser.add_argument("--top-k", type=int, default=5, help="提案する実験の最大数 (default: 5)")
     parser.add_argument("--category", default=None,
                         help="フィルタするカテゴリ (architecture/augmentation/ensemble/training/data/input)")
-    parser.add_argument("--register", action="store_true", help="提案をregistry.csvに登録するモード")
+    parser.add_argument("--exclude-failed", action="store_true",
+                        help="failed_methods に記載済みの手法を厳格に除外する（デフォルトでも除外するが、より厳格に）")
+    parser.add_argument("--register", action="store_true", help="提案をinit_experiment.pyで登録するモード")
     parser.add_argument("--all", action="store_true", help="フィルタなしで全候補を表示")
     return parser.parse_args()
 
 
 def load_failed_methods() -> set[str]:
-    """failed_methods.md からキーワードを抽出する。"""
-    path = ROOT / "knowledge" / "failed_methods.md"
-    if not path.exists():
-        return set()
-    content = path.read_text(encoding="utf-8")
+    """failed_methods.md と knowledge/failed_methods/ からキーワードを抽出する。"""
     keywords = set()
-    for line in content.splitlines():
-        if "**再試行禁止条件**" in line or "**手法**" in line or "###" in line:
-            words = re.findall(r"\w+", line.lower())
-            keywords.update(words)
+
+    # 単一ファイル版
+    path = ROOT / "knowledge" / "failed_methods.md"
+    if path.exists():
+        content = path.read_text(encoding="utf-8")
+        for line in content.splitlines():
+            if any(marker in line for marker in ("**再試行禁止条件**", "**手法**", "### [FAIL")):
+                words = re.findall(r"\w+", line.lower())
+                keywords.update(words)
+
+    # versioned snapshot ディレクトリ版
+    snap_dir = ROOT / "knowledge" / "failed_methods"
+    if snap_dir.exists():
+        for snap_file in snap_dir.glob("*.md"):
+            content = snap_file.read_text(encoding="utf-8")
+            for line in content.splitlines():
+                words = re.findall(r"\w+", line.lower())
+                keywords.update(words)
+
     return keywords
 
 
@@ -325,12 +339,22 @@ def main():
 
         for idx in indices:
             if 0 <= idx < len(display):
-                register_experiment(display[idx])
+                exp = display[idx]
+                import subprocess
+                cmd = [
+                    sys.executable, "scripts/init_experiment.py",
+                    "--name", exp["name"],
+                    "--hypothesis", exp["hypothesis"],
+                    "--one-variable", exp["variable"],
+                    "--notes", exp["rationale"],
+                ]
+                print(f"\n実行: {' '.join(cmd)}")
+                subprocess.run(cmd)
             else:
                 print(f"WARNING: {idx+1} は無効な番号です")
 
         print("\n次のステップ:")
-        print("  experiments/registry.csv を確認して baseline_exp_id を設定してください")
+        print("  configs/experiments/exp_XXXX.yaml を作成して学習設定を記述してください")
     else:
         print(f"実験をregistryに登録するには: python scripts/suggest_next_experiments.py --register")
 
