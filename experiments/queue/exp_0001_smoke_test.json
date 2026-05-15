@@ -1,0 +1,15 @@
+{
+  "exp_id": "0001",
+  "name": "smoke_test",
+  "hypothesis": "Tom-style environment smoke test",
+  "variable_changed": "none",
+  "baseline_exp_id": "none",
+  "status": "planned",
+  "registered_at": "2026-05-15",
+  "notes": "",
+  "execution": {
+    "command": "python train.py --config configs/experiments/exp_0001.yaml",
+    "log_file": "logs/train/exp_0001_train.log",
+    "done_signal": "experiments/running/exp_0001/done.json"
+  }
+}

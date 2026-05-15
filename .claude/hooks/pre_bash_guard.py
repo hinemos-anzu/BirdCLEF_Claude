@@ -44,9 +44,13 @@ DESTRUCTIVE_OPS = [
 
 def is_destructive_on_protected(command: str) -> tuple[bool, str]:
     """コマンドが保護対象に対して破壊的操作をしているか判定する。"""
-    # submit_code_competition.py の承認ゲートチェック
+    # submit_code_competition.py の承認ゲートチェック（python実行時のみ）
     if "submit_code_competition.py" in command:
-        if "--approval-file" not in command:
+        # git commit メッセージや grep など、python実行でない場合はスキップ
+        is_python_exec = bool(re.search(
+            r"(?:python|python3)\s+.*submit_code_competition\.py", command
+        ))
+        if is_python_exec and "--approval-file" not in command:
             return True, (
                 "submit_code_competition.py には --approval-file が必須です。\n"
                 "先に submissions/approved/exp_XXXX_approval.yaml を作成してください。"
