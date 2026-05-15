@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+env/
+venv/
+
+# Data / Cache（大容量ファイル）
+data/raw/
+data/cache/perch_embeddings/*.npy
+data/cache/perch_embeddings/*.npz
+data/cache/perch_logits/
+*.h5
+*.hdf5
+
+# モデル重みファイル
+*.pt
+*.pth
+*.ckpt
+*.bin
+model_dataset/*.pt
+model_dataset/*.pth
+
+# Kaggle認証（絶対にcommitしない）
+.kaggle/
+kaggle.json
+*.kaggle
+
+# 環境変数
+.env
+.env.local
+
+# ログ（生データは除外、.gitkeepは残す）
+logs/train/*.log
+logs/infer/*.log
+logs/watcher/*.log
+logs/kaggle/*.log
+
+# レポートHTML（Markdownから生成する派生物）
+reports/exported_html/*.html
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Wandb / MLflow
+wandb/
+mlruns/

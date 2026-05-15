@@ -1,0 +1,37 @@
+# SYNTHETIC DATA — replace with real files
+# submissions/approved/blend_sed040_protossm060_approval.yaml
+# 提出前に人間が全フィールドを確認し、approved_by / approved_at を記入すること
+exp_id: "0002"
+candidate_id: "blend_sed040_protossm060_20260515"
+submission_file: "submissions/candidates/blend_sweep_20260515/submission_blend_sed040_protossm060.csv"
+submission_csv_sha256: "45eab7d37e5ec371f7ce500ab4ddb4864497352b7abdd1f2a34e117c2bcc5455"
+notebook_kernel: "YOUR_USERNAME/birdclef2026-inference"
+notebook_version: 0
+approved_by: ""           # 人間が記入
+approved_at: ""           # 人間が記入
+reason: "SED=0.40 / ProtoSSM=0.60 ブレンド。現行final blendの再現確認。"
+hypothesis: "SED×0.40 + ProtoSSM×0.60が現行ベストを再現する"
+one_variable: "blend_weight_sed"
+expected_effect: "現行LB 0.945の再現。SED比率変更なし（baseline確認目的）"
+risk: "low"
+rollback_plan: "LBが0.940を下回ったら再提出しない"
+allow_submit: false       # 人間が true に変更するまで提出不可（合成データのため変更禁止）
+synthetic_demo: true      # 合成データによるパイプライン疎通テスト。実ファイル監査後に削除すること
+validation_passed: true
+audit_details:
+  shape: [7200, 207]
+  nan_count: 0
+  inf_count: 0
+  score_min: 0.0
+  score_max: 0.556101
+  score_mean: 0.010990
+  cells_gt_05: 25
+  col_order_match: true
+  row_count_match: true
+reject_check:
+  in_failed_methods: false
+  sed_ratio_gt_050: false      # SED=0.40 ≤ 0.50 → OK
+  one_variable_only: true
+  validation_passed: true
+  verdict: "DEMO_PASS_SYNTHETIC"
+notes: "SYNTHETIC DATA — 実ファイルに差し替え後、SHA256を更新し人間が審査すること"

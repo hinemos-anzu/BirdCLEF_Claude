@@ -1,0 +1,4 @@
+exp_id,name,hypothesis,variable_changed,baseline_exp_id,status,cv_score,lb_score,date,notes
+0000,init_baseline,"環境構築・初期ベースライン確立","none","none","template","","","2026-05-15","レジストリ初期化。実験はこの行の下に追記すること"
+0001,smoke_test,Tom-style environment smoke test,none,none,completed,,,2026-05-15,パイプライン疎通テスト完了
+0002,baseline_v9_ensemble,"LightProtoSSM(41)+LightProtoSSM(42)+ProtoSSM(3)のrank-blend。公開ベースライン(tedBirdCLEF+ Improved)の再現","none","none","planned","",0.947,2026-05-15,"dry-run確認済み。subm_3はTrain IDsのため本番実行が必要"
